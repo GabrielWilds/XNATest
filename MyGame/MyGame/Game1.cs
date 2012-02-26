@@ -18,6 +18,7 @@ namespace MyGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Sprite _sprite;
 
         public Game1()
         {
@@ -38,8 +39,6 @@ namespace MyGame
             base.Initialize();
         }
 
-        Texture2D myTexture;
-        Vector2 spritePosition = Vector2.Zero;
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -48,7 +47,8 @@ namespace MyGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            myTexture = Content.Load<Texture2D>("Isaac5");
+            
+            _sprite = new Sprite(Content.Load<Texture2D>("Isaac5"));
             // TODO: use this.Content to load your game content here
         }
 
@@ -80,9 +80,6 @@ namespace MyGame
             base.Update(gameTime);
         }
 
-        // Store some information about the sprite's motion.
-        Vector2 spriteSpeed = new Vector2(50.0f, 50.0f);
-
         bool upKeyHasBeenReleased = true;
         bool downKeyHasBeenReleased = true;
         bool leftKeyHasBeenReleased = true;
@@ -90,7 +87,6 @@ namespace MyGame
 
         void UpdateSprite(GameTime gameTime)
         {
-            long loopStartTime = gameTime.TotalGameTime.Ticks;
             // Move the sprite by speed, scaled by elapsed time.
             //spritePosition +=
             //    spriteSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds * 20;
@@ -98,57 +94,57 @@ namespace MyGame
 
             if (state.IsKeyDown(Keys.Down) && downKeyHasBeenReleased)
             {
-                spritePosition.Y += myTexture.Height;
+                _sprite.MoveDown(_sprite.Texture.Height);
                 downKeyHasBeenReleased = false;
             }
             else if (state.IsKeyDown(Keys.Up) && upKeyHasBeenReleased)
             {
-                spritePosition.Y -= myTexture.Height;
+                _sprite.MoveUp(_sprite.Texture.Height);
                 upKeyHasBeenReleased = false;
             }
 
-            if (state.IsKeyDown(Keys.Left) && leftKeyHasBeenReleased)
+            if (state.IsKeyDown(Keys.Right) && rightKeyHasBeenReleased)
             {
-                spritePosition.X -= myTexture.Width;
-                leftKeyHasBeenReleased = false;
-            }
-            else if (state.IsKeyDown(Keys.Right) && rightKeyHasBeenReleased)
-            {
-                spritePosition.X += myTexture.Width;
+                _sprite.MoveRight(_sprite.Texture.Width);
                 rightKeyHasBeenReleased = false;          
+            }
+            else if (state.IsKeyDown(Keys.Left) && leftKeyHasBeenReleased)
+            {
+                _sprite.MoveLeft(_sprite.Texture.Width);
+                leftKeyHasBeenReleased = false;
             }
             
 
             int MaxX =
-                graphics.GraphicsDevice.Viewport.Width - myTexture.Width;
+                graphics.GraphicsDevice.Viewport.Width - _sprite.Texture.Width;
             int MinX = 0;
             int MaxY =
-                graphics.GraphicsDevice.Viewport.Height - myTexture.Height;
+                graphics.GraphicsDevice.Viewport.Height - _sprite.Texture.Height;
             int MinY = 0;
 
             // Check for bounce.
-            if (spritePosition.X > MaxX)
+            if (_sprite.Position.X > MaxX)
             {
-                spriteSpeed.X *= -1;
-                spritePosition.X = MaxX;
+                _sprite.ReverseXSpeed();
+                _sprite.Position = new Vector2( MaxX, _sprite.Position.Y);
             }
 
-            else if (spritePosition.X < MinX)
+            else if (_sprite.Position.X < MinX)
             {
-                spriteSpeed.X *= -1;
-                spritePosition.X = MinX;
+                _sprite.ReverseXSpeed();
+                _sprite.Position = new Vector2(MinX, _sprite.Position.Y);
             }
 
-            if (spritePosition.Y > MaxY)
+            if (_sprite.Position.Y > MaxY)
             {
-                spriteSpeed.Y *= -1;
-                spritePosition.Y = MaxY;
+                _sprite.ReverseYSpeed();
+                _sprite.Position = new Vector2(_sprite.Position.X, MaxY);
             }
 
-            else if (spritePosition.Y < MinY)
+            else if (_sprite.Position.Y < MinY)
             {
-                spriteSpeed.Y *= -1;
-                spritePosition.Y = MinY;
+                _sprite.ReverseYSpeed();
+                _sprite.Position = new Vector2(_sprite.Position.X, MinY);
             }
 
             if (state.IsKeyUp(Keys.Down))
@@ -159,7 +155,6 @@ namespace MyGame
                 leftKeyHasBeenReleased = true;
             if (state.IsKeyUp(Keys.Right))
                 rightKeyHasBeenReleased = true;
-            long loopTime = gameTime.TotalGameTime.Ticks - loopStartTime;
             
         }
 
@@ -173,7 +168,7 @@ namespace MyGame
 
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            spriteBatch.Draw(myTexture, spritePosition, Color.White);
+            _sprite.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
