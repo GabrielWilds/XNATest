@@ -1,0 +1,7 @@
+W:\Users\JSL\Documents\Visual Studio 2010\Projects\MyGame\MyGame\MyGame\bin\x86\Debug\Content\Isaac5.xnb
+W:\Users\JSL\Documents\Visual Studio 2010\Projects\MyGame\MyGame\MyGame\bin\x86\Debug\MyGame.exe
+W:\Users\JSL\Documents\Visual Studio 2010\Projects\MyGame\MyGame\MyGame\bin\x86\Debug\MyGame.pdb
+W:\Users\JSL\Documents\Visual Studio 2010\Projects\MyGame\MyGame\MyGame\obj\x86\Debug\ResolveAssemblyReference.cache
+W:\Users\JSL\Documents\Visual Studio 2010\Projects\MyGame\MyGame\MyGame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+W:\Users\JSL\Documents\Visual Studio 2010\Projects\MyGame\MyGame\MyGame\obj\x86\Debug\MyGame.exe
+W:\Users\JSL\Documents\Visual Studio 2010\Projects\MyGame\MyGame\MyGame\obj\x86\Debug\MyGame.pdb
